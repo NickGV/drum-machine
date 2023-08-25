@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-
 function App() {
     const sounds = {
         q: "Heater-1",
@@ -24,6 +23,21 @@ function App() {
         console.log(audio);
         audio.play();
     };
+
+    const handleKeyPress = (event) => {
+        const key = event.key.toLowerCase();
+        if (soundsMap[key]) {
+            playSound(soundsMap[key]);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyPress);
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, []);
+
     return (
         <>
             <div className="container">
